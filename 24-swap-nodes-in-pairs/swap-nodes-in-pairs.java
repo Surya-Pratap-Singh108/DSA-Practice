@@ -26,8 +26,7 @@ class Solution {
 
             if (first != null)
                 second = first.next;
-            else
-                second = null;
+            
         }
 
         return newHead;
