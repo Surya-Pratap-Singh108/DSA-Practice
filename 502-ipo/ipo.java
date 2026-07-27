@@ -1,37 +1,30 @@
 class Solution {
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
-        
-        PriorityQueue<int[]> pq=new PriorityQueue<>(
-            (a,b)->{
-                return b[0]-a[0];//max Heap
-            }
-        );
-        
-        HashMap<Character,Integer> map=new HashMap<>();
-        for(int i=0;i<profits.length;i++){
-            pq.offer(new int[]{profits[i],capital[i]});
+        int n = profits.length;
+
+        // Step 1: Pair and sort projects by capital requirement
+        int[][] projects = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            projects[i][0] = capital[i];  // capital first for sorting
+            projects[i][1] = profits[i];
         }
-        PriorityQueue<int[]> q = new PriorityQueue<>(
-            (a,b)->{
-                return a[0]-b[0];//min Heap
+        Arrays.sort(projects, (a, b) -> a[0] - b[0]); // sort by min capital
+
+        // Step 2: Max-heap on profit (only affordable projects live here)
+        PriorityQueue<Integer> maxProfit = new PriorityQueue<>(Collections.reverseOrder());
+
+        int idx = 0;
+        for (int i = 0; i < k; i++) {
+            // Unlock all projects we can now afford
+            while (idx < n && projects[idx][0] <= w) {
+                maxProfit.offer(projects[idx][1]);
+                idx++;
             }
-            );
-        while(k>0){
-            while(!pq.isEmpty()&&pq.peek()[1]>w){
-                int[] temp=pq.poll();
-                q.offer(new int[]{temp[1],temp[0]});
-                
-            }
-            if(pq.isEmpty()) return w;
-            int[] curr=pq.poll();
-            w+=curr[0];
-            k--;
-            
-            while(!q.isEmpty()&&q.peek()[0]<=w){
-                int[] temp=q.poll();
-                pq.offer(new int[]{temp[1],temp[0]});
-            }
-            
+            // No affordable project available
+            if (maxProfit.isEmpty()) break;
+
+            // Pick the most profitable one
+            w += maxProfit.poll();
         }
         return w;
     }
