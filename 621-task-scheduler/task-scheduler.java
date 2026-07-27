@@ -1,55 +1,41 @@
 class Solution {
-
-    class Pair {
-        char ch;
-        int freq;
-        int availableTime;
-
-        Pair(char ch, int freq, int availableTime) {
-            this.ch = ch;
-            this.freq = freq;
-            this.availableTime = availableTime;
-        }
-    }
-
     public int leastInterval(char[] tasks, int n) {
-
-        HashMap<Character, Integer> map = new HashMap<>();
-
-        for (char task : tasks) {
-            map.put(task, map.getOrDefault(task, 0) + 1);
+        HashMap<Character,Integer> map=new HashMap<>();
+        for(char ch:tasks){
+            map.put(ch,map.getOrDefault(ch,0)+1);
         }
-
-        PriorityQueue<Pair> pq = new PriorityQueue<>(
-                (a, b) -> b.freq - a.freq);
-
+        PriorityQueue<Integer> pq=new PriorityQueue<>(
+            (a,b)->{
+                return b-a;//max Heap
+            }
+            );
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            pq.offer(new Pair(entry.getKey(), entry.getValue(), 0));
+            Character key = entry.getKey();
+            Integer value = entry.getValue();
+            pq.add(value);
         }
-
-        Queue<Pair> q = new ArrayDeque<>();
+        
+        Queue<int[]> q = new LinkedList<>();
 
         int time = 0;
-
-        while (!pq.isEmpty() || !q.isEmpty()) {
-
+        
+        while((!pq.isEmpty())||(!q.isEmpty())){
             time++;
-            if (!pq.isEmpty()) {
-
-                Pair curr = pq.poll();
-
-                curr.freq--;
-                if (curr.freq > 0) {
-                    curr.availableTime = time + n;
-                    q.offer(curr);
-                }
+            
+            if(!pq.isEmpty()){
+                int curr=pq.poll();
+                curr--;
+                if(curr>0) q.add(new int[]{curr,time+n});
             }
-
-            if (!q.isEmpty() && q.peek().availableTime == time) {
-                pq.offer(q.poll());
+            
+            // if(!q.isEmpty()&&q.peek()[1]==time){
+            //     pq.add(q.poll()[0]);
+            // }
+             // release all ready tasks
+            while (!q.isEmpty() && q.peek()[1] == time) {
+                pq.add(q.poll()[0]);
             }
         }
-
         return time;
     }
 }
