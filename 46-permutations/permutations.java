@@ -1,33 +1,25 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-
         List<List<Integer>> ans=new LinkedList<>();
-        boolean[] isUsed=new boolean[nums.length];
-        if(nums.length==0)return ans;
-        temp(new LinkedList<>(),ans,nums,0,isUsed);
+        List<Integer> list=new ArrayList<>();
+        boolean[] freq=new boolean[nums.length];
+        helper(nums,list,ans,freq);
         return ans;
-	}
-	public void temp(List<Integer> curr,List<List<Integer>> ans,int[] nums,int idx, boolean[] isUsed){
-	    
-	    
-	    if(curr.size()==nums.length){
-	        ans.add(new LinkedList<>(curr));
-	        return;
-	    }
-	    
-	    for(int i=0;i<nums.length;i++){
-	        
-	        if(isUsed[i]==true){
-	            continue;
-	        }
-	        curr.add(nums[i]);
-	        isUsed[i]=true;
-	        
-	        temp(curr,ans,nums,idx+1,isUsed);
-	        
-	        curr.remove(curr.size() - 1);
-	        isUsed[i]=false;
-	        
-	    }
-	}
+    }
+    public static void helper(int[] nums,List<Integer> list,List<List<Integer>> ans,boolean[] freq) {
+        if(list.size()==nums.length){
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i=0;i<nums.length;i++){
+            if(!freq[i]) {
+                freq[i]=true;
+                list.add(nums[i]);
+                helper(nums,list,ans,freq);
+                list.remove(list.size()-1);
+                freq[i]=false;
+            }
+        }
+    }
 }
