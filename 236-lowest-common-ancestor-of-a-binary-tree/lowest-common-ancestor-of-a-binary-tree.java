@@ -9,38 +9,31 @@
  */
 class Solution {
 
-    TreeNode ans = null;
-
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        
-        helper(root,p,q);
-        
-        return ans;
-	}
-	
-	public int helper(TreeNode curr, TreeNode p, TreeNode q){
-	    
-	    if(curr==null){
-	        return 0;
-	    }
-	    if(ans!=null){//optional
-	        return 0;//anything
-	    }
-	    
-	    int left=helper(curr.left,p,q);
-	    int right=helper(curr.right,p,q);
-	    
-	    
-	    int self=0;
-	    if(curr==p||curr==q){
-	        self=1;
-	    }
-	    
-	    int total=left+right+self;
-	    if(total==2&&ans==null){
-	        ans=curr;
-	    }
-	    return total;
-	    
-	}
+        return helper(root, p, q);
+    }
+
+    public TreeNode helper(TreeNode curr, TreeNode p, TreeNode q) {
+
+        if (curr == null) {
+            return null;
+        }
+
+        if (curr == p || curr == q) {
+            return curr;
+        }
+
+        TreeNode left = helper(curr.left, p, q);
+        TreeNode right = helper(curr.right, p, q);
+
+        if (left != null && right != null) {
+            return curr;
+        }
+
+        if (left != null) {
+            return left;
+        }
+
+        return right;
+    }
 }
