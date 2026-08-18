@@ -14,22 +14,16 @@ class Solution {
         if (head == null || head.next == null) {
             return;
         }
-
-        // 1. Find middle and split
         ListNode slow = head;
         ListNode fast = head;
-        ListNode firstLast = null;
-
-        while (fast != null && fast.next != null) {
-            firstLast = slow;
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        // First half ends here
-        firstLast.next = null;
-
-        // 2. Reverse second half
+        ListNode temp=slow;
+        slow=slow.next;
+        temp.next=null;//to cut connection
         ListNode prev = null;
 
         while (slow != null) {
@@ -39,7 +33,6 @@ class Solution {
             slow = next;
         }
 
-        // 3. Merge
         ListNode first = head;
         ListNode second = prev;
         ListNode tail = first;
@@ -50,20 +43,15 @@ class Solution {
             ListNode secondNext = second.next;
 
             tail.next = second;
-            tail = second;
+            tail = tail.next;
 
             if (firstNext != null) {
                 tail.next = firstNext;
-                tail = firstNext;
+                tail =tail.next;
             }
 
             first = firstNext;
             second = secondNext;
-        }
-
-        // Odd-length list: one node remains in second half
-        if (second != null) {
-            tail.next = second;
         }
     }
 }
