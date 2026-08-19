@@ -35,20 +35,14 @@ class Solution {
 
         ListNode first = head;
         ListNode second = prev;
-        ListNode tail = first;
 
-        while (first != null && second != null) {
+        while (second != null) {
 
             ListNode firstNext = first.next;
             ListNode secondNext = second.next;
 
-            tail.next = second;
-            tail = tail.next;
-
-            if (firstNext != null) {
-                tail.next = firstNext;
-                tail =tail.next;
-            }
+            first.next = second;
+            second.next = firstNext;
 
             first = firstNext;
             second = secondNext;
