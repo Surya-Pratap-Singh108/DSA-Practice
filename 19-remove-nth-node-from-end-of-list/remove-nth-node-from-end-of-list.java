@@ -13,22 +13,20 @@ class Solution {
 
         ListNode first=head;
         ListNode last=head;
-        int count=1;
+        int count=0;
         while(count<n){
             last=last.next;
             count++;
         }
-        if(last.next == null) return head.next;
-        ListNode firstLast=null;
+        if(last == null) return head.next;
         while(last.next!=null){
-            firstLast=first;
             first=first.next;
             last=last.next;
         }
-        if(firstLast!=null){
-            firstLast.next=first.next;
+        
+        first.next=first.next.next;
 
-        }
+        
         
         return head;
     }
