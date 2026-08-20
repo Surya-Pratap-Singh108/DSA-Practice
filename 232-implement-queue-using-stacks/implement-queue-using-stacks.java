@@ -1,49 +1,45 @@
-import java.util.Stack;
-
 class MyQueue {
-    private Stack<Integer> s1;
-    private Stack<Integer> s2;
-
+    Stack<Integer> st1;
+    Stack<Integer> st2;
     public MyQueue() {
-        s1 = new Stack<>();
-        s2 = new Stack<>();
+        st1=new Stack<>();
+        st2=new Stack<>();
     }
-
+    
     public void push(int x) {
-        s1.push(x);
+        st1.push(x);
     }
     
     public int pop() {
-         if (s1.empty()){
-        System.out.println(("queue is empty"));
-    }
-    while(!s1.empty()) {
-        s2.push(s1.pop());
-    }
-    int removed=s2.pop();
-        while(!s2.empty()) {
-            s1.push(s2.pop());
+        int poped=-1;
+        if(st1.isEmpty())return poped;
+        while(!st1.isEmpty()){
+            st2.push(st1.pop());
         }
-    return removed;
+        poped=st2.pop();
+        while(!st2.isEmpty()){
+            st1.push(st2.pop());
+        }
+        return poped;
     }
     
+    
     public int peek() {
-        if (s1.empty()){
-        System.out.println(("queue is empty"));
-    }
-    while(!s1.empty()) {
-        s2.push(s1.pop());
-    }
-    int peeked=s2.peek();
-    while(!s2.empty()) {
-        s1.push(s2.pop());
-    }
-    return peeked;
+        int peeked=-1;
+        if(st1.isEmpty())return peeked;
+        while(!st1.isEmpty()){
+            st2.push(st1.pop());
+        }
+        peeked=st2.peek();
+        while(!st2.isEmpty()){
+            st1.push(st2.pop());
+        }
+        return peeked;
     }
     
     public boolean empty() {
-      return s1.isEmpty();
-}
+        return st1.empty();
+    }
 }
 
 /**
