@@ -1,70 +1,39 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
-
-        int fresh = 0;
-        int time = 0;
-        Queue<int[]> queue = new ArrayDeque<>();
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] == 2) {
-                    queue.offer(new int[]{i, j});
-                }
-                else if (grid[i][j] == 1) {
-                    fresh++;
+        Queue<int []> q=new ArrayDeque<>();
+        int ans=0;
+        int fresh=0;
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[i].length;j++){
+                if(grid[i][j]==1)fresh++;
+                else if(grid[i][j]==2){
+                    q.add(new int[]{i,j});
+                    // grid[i][j]=0;
                 }
             }
         }
-        if (fresh == 0) return time;
-
-        while (!queue.isEmpty() && fresh > 0) {
-
-            time++;
-            int size = queue.size();
-
-            while (size > 0) {
-
-                int[] curr = queue.poll();
-
-                // go up
-                if (curr[0] - 1 >= 0 &&
-                    grid[curr[0] - 1][curr[1]] == 1) {
-
-                    grid[curr[0] - 1][curr[1]] = 2;
-                    fresh--;
-                    queue.offer(new int[]{curr[0] - 1, curr[1]});
+        int[] a={0,1,0,-1};
+        int[] b={1,0,-1,0};
+        while(!q.isEmpty()&&fresh>0){
+            int size=q.size();
+            ans++;
+            for(int i=0;i<size;i++){
+                int[]curr=q.poll();
+                int currR=curr[0];
+                int currC=curr[1];
+                for(int j=0;j<a.length;j++){
+                    int newR=currR+a[j];
+                    int newC=currC+b[j];
+                    if(newR<0||newR==grid.length||newC<0||newC==grid[newR].length) continue;
+                    if(grid[newR][newC]==1){
+                        fresh--;
+                        grid[newR][newC]=2;
+                        q.offer(new int[]{newR,newC});
+                    }
                 }
-
-                // go down
-                if (curr[0] + 1 < grid.length &&
-                    grid[curr[0] + 1][curr[1]] == 1) {
-
-                    grid[curr[0] + 1][curr[1]] = 2;
-                    fresh--;
-                    queue.offer(new int[]{curr[0] + 1, curr[1]});
-                }
-
-                // go left
-                if (curr[1] - 1 >= 0 &&
-                    grid[curr[0]][curr[1] - 1] == 1) {
-
-                    grid[curr[0]][curr[1] - 1] = 2;
-                    fresh--;
-                    queue.offer(new int[]{curr[0], curr[1] - 1});
-                }
-
-                // go right
-                if (curr[1] + 1 < grid[0].length &&
-                    grid[curr[0]][curr[1] + 1] == 1) {
-
-                    grid[curr[0]][curr[1] + 1] = 2;
-                    fresh--;
-                    queue.offer(new int[]{curr[0], curr[1] + 1});
-                }
-
-                size--;
+                
             }
         }
-
-        return fresh == 0 ? time : -1;
+        return fresh>0?-1:ans;
     }
 }
