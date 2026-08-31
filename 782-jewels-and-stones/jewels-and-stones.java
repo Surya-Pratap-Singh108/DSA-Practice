@@ -1,13 +1,14 @@
 class Solution {
     public int numJewelsInStones(String jewels, String stones) {
-        HashMap<Character,Integer> map=new HashMap<>();
-        for(char ch:stones.toCharArray()){
-            map.put(ch,map.getOrDefault(ch,0)+1);
+        Set<Character> set=new HashSet<>();
+        for(char ch:jewels.toCharArray()){
+            set.add(ch);
         }
         int ans=0;
-        for(char ch:jewels.toCharArray()){
-            if(map.containsKey(ch))ans+=map.get(ch);
+        for(char ch:stones.toCharArray()){
+            if(set.contains(ch))ans++;
         }
+        
         return ans;
     }
 }
