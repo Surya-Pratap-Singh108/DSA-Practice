@@ -8,7 +8,7 @@ class Solution {
             } else if (ch == ')') {
                 minOpen--;
                 maxOpen--;
-            } else { // '*'
+            } else {//'*'
                 minOpen--;
                 maxOpen++;
             }
