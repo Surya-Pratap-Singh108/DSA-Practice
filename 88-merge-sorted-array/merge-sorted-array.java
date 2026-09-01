@@ -14,19 +14,10 @@ class Solution {
             }
             index--;
         }
-        if(left>=0){
-            while(left>=0){
-                nums1[index]=nums1[left];
-                left--;
-                index--;
-            }
-        }
-        else{
-            while(right>=0){
-                nums1[index]=nums2[right];
-                right--;
-                index--;
-            }
+        while(right>=0){
+            nums1[index]=nums2[right];
+            right--;
+            index--;
         }
     }
 
