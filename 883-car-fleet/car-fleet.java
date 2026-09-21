@@ -14,14 +14,16 @@ class Solution {
 
         for (int i = position.length - 1; i >= 0; i--) {
 
-            double time = (double)(target - position[i]) / map.get(position[i]);
+            int pos=position[i];
+            int spe=map.get(position[i]);
 
-            if (time > lastTime) {
+            double totalTime=(double)(target-pos)/spe;
+            
+            if(totalTime>lastTime){
                 fleets++;
-                lastTime = time;
+                lastTime=totalTime;
             }
         }
-
         return fleets;
     }
 }
