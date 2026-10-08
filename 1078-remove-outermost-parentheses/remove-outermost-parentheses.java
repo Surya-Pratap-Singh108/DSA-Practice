@@ -3,16 +3,15 @@ class Solution {
         int start=0;
         int open=0;
         int close=0;
-        String ans="";
+        StringBuilder ans=new StringBuilder();
         for(int i=0;i<s.length();i++){
             if(s.charAt(i)=='(')open++;
             else close++;
             if(open==close){
-                ans=ans+s.substring(start+1,i);
+                ans.append(s.substring(start + 1, i));
                 start=i+1;
-                continue;
             }
         }
-        return ans;
+        return ans.toString();
     }
 }
