@@ -13,11 +13,14 @@ class Solution {
         while(i<n/2){
             int large=maxHeap.poll();
             int small=minHeap.poll();
-            ans=ans+(large*large);
-            ans=ans-(small*small);
+            ans = ans + (1L * large * large);
+            ans = ans - (1L * small * small);
             i++;
         }
-        if(n%2!=0)ans+=(maxHeap.peek()*maxHeap.peek());
+        if (n % 2 != 0) {
+            long mid = maxHeap.peek();
+            ans += mid * mid;
+        }
         
         return ans;
     }
