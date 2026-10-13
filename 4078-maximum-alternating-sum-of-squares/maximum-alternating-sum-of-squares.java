@@ -1,27 +1,29 @@
+import java.util.Arrays;
+
 class Solution {
     public long maxAlternatingSum(int[] nums) {
-        int n=nums.length;
-        PriorityQueue<Integer> minHeap=new PriorityQueue<>();
-        PriorityQueue<Integer> maxHeap=new PriorityQueue<>((a,b)->Integer.compare(b,a));
-        
-        for(int curr:nums){
-            minHeap.offer(Math.abs(curr));
-            maxHeap.offer(Math.abs(curr));
+        int n = nums.length;
+
+        // Square every element
+        for (int i = 0; i < n; i++) {
+            nums[i] = nums[i] * nums[i];
         }
-        long ans=0;
-        int i=0;
-        while(i<n/2){
-            int large=maxHeap.poll();
-            int small=minHeap.poll();
-            ans = ans + (1L * large * large);
-            ans = ans - (1L * small * small);
-            i++;
+
+        Arrays.sort(nums);
+
+        long ans = 0;
+        int mid = n / 2;
+
+        // Subtract the smaller half
+        for (int i = 0; i < mid; i++) {
+            ans -= nums[i];
         }
-        if (n % 2 != 0) {
-            long mid = maxHeap.peek();
-            ans += mid * mid;
+
+        // Add the larger half
+        for (int i = mid; i < n; i++) {
+            ans += nums[i];
         }
-        
+
         return ans;
     }
 }
