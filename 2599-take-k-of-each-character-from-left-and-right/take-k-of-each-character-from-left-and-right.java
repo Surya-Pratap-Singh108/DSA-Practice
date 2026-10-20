@@ -21,7 +21,7 @@ class Solution {
         for(int right=0;right<s.length();right++){
             char curr=s.charAt(right);
             map.put(curr,map.get(curr)+1);
-            if(map.get('a')>a-k||
+            while(map.get('a')>a-k||
                 map.get('b')>b-k||
                 map.get('c')>c-k
                 )
