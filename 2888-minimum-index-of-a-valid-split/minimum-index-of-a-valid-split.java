@@ -1,22 +1,46 @@
 class Solution {
     public int minimumIndex(List<Integer> nums) {
-        HashMap<Integer,Integer> map=new HashMap<>();
-        int dominant=0;
-        int n=nums.size();
-        for(int num:nums){
-            map.put(num,map.getOrDefault(num,0)+1);
-            if((map.get(num)*2)>n){
-                dominant=num;
+        int n = nums.size();
+
+        // Step 1: Find the dominant element using Boyer-Moore
+        int dominant = 0;
+        int balance = 0;
+
+        for (int num : nums) {
+            if (balance == 0) {
+                dominant = num;
+            }
+
+            if (num == dominant) {
+                balance++;
+            } else {
+                balance--;
             }
         }
-        int count=0;
-        for(int i=0;i<n-1;i++){
-            if(nums.get(i)==dominant){
+
+        // Step 2: Count total occurrences of the dominant element
+        int totalCount = 0;
+
+        for (int num : nums) {
+            if (num == dominant) {
+                totalCount++;
+            }
+        }
+
+        // Step 3: Check every possible split
+        int count = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            if (nums.get(i) == dominant) {
                 count++;
-                if(count*2>i+1&&(map.get(dominant)-count)*2>n-i-1)return i;
             }
-            
+
+            if (count * 2 > i + 1 &&
+                (totalCount - count) * 2 > n - i - 1) {
+                return i;
+            }
         }
+
         return -1;
     }
 }
