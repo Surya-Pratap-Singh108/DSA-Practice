@@ -5,7 +5,7 @@ class Solution {
         for(int i=0;i<nums.length;i++){
             int lIndex=bSearch(nums,i+1,nums.length-1,lower-nums[i],true);
             int hIndex=bSearch(nums,i+1,nums.length-1,upper-nums[i],false);
-            if (lIndex != -1 && hIndex != -1 && lIndex <= hIndex) {
+            if (lIndex != -1 && hIndex != -1 ) {
                 ans += hIndex - lIndex + 1;
             }
         }
